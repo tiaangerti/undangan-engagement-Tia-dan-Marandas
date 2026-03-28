@@ -1,0 +1,248 @@
+<script>
+    // Ini pengganti PHP untuk ambil nama tamu dari link
+    const urlParams = new URLSearchParams(window.location.search);
+    const nama_tamu = urlParams.get('to') || "Tamu Undangan";
+</script>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Engagement of Tia & Partner</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --biru-langit: #a2d2ff; 
+            --merah-pastel: #ffafcc; 
+            --putih-bersih: #ffffff;
+            --teks-abu: #555;
+            --bg-halaman: #fdfeff;
+            --bayangan: 0 15px 50px rgba(162, 210, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-halaman);
+            margin: 0;
+            overflow: hidden; 
+            height: 100vh;
+            color: var(--teks-abu);
+        }
+
+        /* --- COVER --- */
+        #sampul-amplop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--biru-langit), var(--merah-pastel));
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; z-index: 9999;
+            transition: transform 1.8s ease-in-out, opacity 1.2s ease-in-out;
+            text-align: center; padding: 20px; box-sizing: border-box;
+        }
+
+        .ikon-surat {
+            font-size: 80px; margin-bottom: 20px;
+            animation: goyangSurat 2s infinite; 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+        }
+
+        @keyframes goyangSurat {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            10% { transform: rotate(10deg) scale(1.05); }
+            20% { transform: rotate(-10deg) scale(1.05); }
+            50% { transform: rotate(0deg) scale(1); }
+        }
+
+        .judul-cover {
+            font-family: 'Playfair Display', serif; font-style: italic;
+            font-size: 38px; margin: 10px 0;
+        }
+
+        .subjudul-cover {
+            letter-spacing: 4px; text-transform: uppercase;
+            font-size: 11px; font-weight: 600; margin-bottom: 40px;
+        }
+
+        .btn-buka {
+            background-color: white; color: var(--biru-langit); border: none;
+            padding: 16px 45px; border-radius: 40px; font-weight: 600;
+            cursor: pointer; font-size: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .amplop-terbuka { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        /* --- ISI UNDANGAN --- */
+        .isi-undangan {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 50px 0;
+            opacity: 0; transition: opacity 2s ease-in-out 0.8s;
+        }
+
+        .isi-tampil { opacity: 1; }
+
+        .card {
+            background: var(--putih-bersih);
+            max-width: 420px; width: 88%;
+            padding: 60px 30px; border-radius: 40px;
+            box-shadow: var(--bayangan);
+            text-align: center; border: 10px solid white;
+            position: relative; overflow: hidden;
+        }
+
+        .card::before { content: "🌸"; position: absolute; top: -10px; right: -10px; font-size: 50px; opacity: 0.1; }
+        .card::after { content: "🌸"; position: absolute; bottom: -10px; left: -10px; font-size: 50px; opacity: 0.1; }
+
+        h1 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 32px; color: var(--biru-langit); margin: 0; }
+        .ampersand { font-family: 'Playfair Display', serif; font-size: 40px; color: var(--merah-pastel); display: block; margin: 5px 0; }
+
+        /* FOTO & HATI MELAYANG */
+        .foto-container { position: relative; margin: 35px 0; display: inline-block; }
+        .foto-kita { width: 100%; max-width: 280px; border-radius: 30px; border: 6px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; }
+        
+        /* Tambahan: Animasi Goyang Foto */
+        .foto-goyang { animation: goyangFoto 0.5s ease-in-out; }
+        @keyframes goyangFoto {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(5deg) scale(1.05); }
+            75% { transform: rotate(-5deg) scale(1.05); }
+        }
+
+        .hati-melayang { position: absolute; top: -15px; right: 25px; font-size: 40px; animation: melayangHati 4s ease-in-out infinite; opacity: 0.8; pointer-events: none; }
+
+        @keyframes melayangHati {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* COUNTDOWN */
+        .countdown-container { display: flex; justify-content: space-around; margin: 30px 0; background: #fff8f9; padding: 20px; border-radius: 25px; border: 1px solid var(--merah-pastel); }
+        .countdown-number { display: block; font-size: 22px; font-weight: 600; color: var(--merah-pastel); }
+        .countdown-label { font-size: 11px; color: #888; }
+
+        .detail-acara { background: #fdfdfd; border: 2px solid #f0f8ff; padding: 25px; border-radius: 25px; margin: 35px 0; font-size: 14px; color: #666; }
+
+        .btn-maps { display: inline-block; background: var(--biru-langit); color: white; padding: 10px 25px; border-radius: 25px; font-size: 12px; font-weight: 600; text-decoration: none; margin-top: 15px; }
+
+        /* FUN FACT */
+        .box-funfact { text-align: left; margin: 40px 0; padding: 25px; background: #fff8f9; border-radius: 25px; border-left: 5px solid var(--merah-pastel); font-size: 14px; }
+        
+        /* KADO DIGITAL */
+        .box-kado { background: #f0f7ff; border-radius: 25px; padding: 25px 15px; margin: 40px 0; border: 1.5px solid #e1f0ff; }
+        .rekening-card { background: white; padding: 15px; border-radius: 15px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .btn-salin { background: var(--biru-langit); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 11px; cursor: pointer; margin-top: 10px; }
+
+        /* RSVP */
+        input, select { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #f0f0f0; border-radius: 15px; box-sizing: border-box; }
+        .btn-kirim { background: linear-gradient(90deg, var(--biru-langit), var(--merah-pastel)); color: white; border: none; padding: 16px; width: 100%; border-radius: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+        /* WATERMARK SPESIAL TIA ✨ */
+        .watermark { margin-top: 40px; font-size: 11px; color: #bbb; letter-spacing: 1px; }
+        .watermark b { color: var(--merah-pastel); }
+
+        .music-control { position: fixed; bottom: 25px; right: 25px; background: white; padding: 12px; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.08); cursor: pointer; z-index: 1000; border: none; }
+    </style>
+</head>
+<body>
+
+    <audio id="myAudio" loop><source src="musik-undangan.mp3" type="audio/mpeg"></audio>
+    <button class="music-control" onclick="togglePlay()" id="btnMusic" style="display: none;">🎵</button>
+
+    <div id="sampul-amplop">
+        <div class="ikon-surat">💌</div>
+        <div class="subjudul-cover">PENGUMUMAN PERTUNANGAN</div>
+        <div class="judul-cover">Tia & Partner</div>
+        <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">Spesial Untuk:</p>
+        <p style="font-size: 20px; font-weight: 600; margin-bottom: 30px;"><span id="tamu">Tamu Undangan</span>
+<script>document.getElementById("tamu").innerText = nama_tamu;</script></p>
+        <button class="btn-buka" onclick="bukaUndangan()">Klik Untuk Membuka</button>
+    </div>
+
+    <div class="isi-undangan" id="isi-konten">
+        <div class="card">
+            <h1>Tia Angerti, S.Kom</h1>
+            <span class="ampersand">&</span>
+            <h1>Calon Mempelai Pria</h1>
+
+            <div class="foto-container">
+                <img src="gambar/gmoy.jpeg" alt="Foto Tia & Partner" class="foto-kita" id="fotoKita" onclick="animasiFoto()">
+                <div class="hati-melayang">💖</div>
+            </div>
+
+            <div class="countdown-container">
+                <div class="countdown-item"><span class="countdown-number" id="days">0</span><span class="countdown-label">Hari</span></div>
+                <div class="countdown-item"><span class="countdown-number" id="hours">0</span><span class="countdown-label">Jam</span></div>
+                <div class="countdown-item"><span class="countdown-number" id="minutes">0</span><span class="countdown-label">Menit</span></div>
+                <div class="countdown-item"><span class="countdown-number" id="seconds">0</span><span class="countdown-label">Detik</span></div>
+            </div>
+
+            <div class="detail-acara">
+                📍 <b>Lokasi:</b><br>Kediaman Mempelai Wanita<br>Kab. Ketapang, Kalimantan Barat<br><br>
+                📅 <b>Sabtu, 25 April 2026</b><br>
+                ⏰ 10:00 WIB - Selesai<br>
+                <a href="https://maps.google.com" target="_blank" class="btn-maps">📍 Buka Google Maps</a>
+            </div>
+
+            <div class="box-funfact">
+                <p style="text-align:center; font-family:'Playfair Display'; font-size:22px; color:var(--merah-pastel);">✨ Our Story ✨</p>
+                <p>Bertemu di seminar kampus tahun 2022. Dari bahas tugas bareng, akhirnya memutuskan melangkah bareng! 💙</p>
+            </div>
+
+            <div class="box-kado">
+                <b style="color:var(--biru-langit);">Engagement Gift 🎁</b>
+                <div class="rekening-card" style="margin-top:15px;">
+                    <span style="font-weight:600; color:var(--biru-langit);">MANDIRI</span><br>
+                    <span id="rek1" style="font-size:18px; font-weight:600;">1234567890</span><br>
+                    <button class="btn-salin" onclick="salinTeks('rek1')">Salin Nomor</button>
+                </div>
+            </div>
+
+            <form method="POST">
+                <input type="text" name="nama" placeholder="Nama Kamu" required>
+                <select name="status"><option value="Hadir">Akan Hadir</option><option value="Berhalangan">Berhalangan</option></select>
+                <button type="submit" name="kirim" class="btn-kirim">Konfirmasi Kehadiran</button>
+            </form>
+
+            <div class="watermark">
+                Created with 💖 by <b>Tia Angerti</b>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var audio = document.getElementById("myAudio");
+        function bukaUndangan() {
+            document.getElementById("sampul-amplop").classList.add("amplop-terbuka");
+            document.getElementById("isi-konten").classList.add("isi-tampil");
+            audio.play();
+            document.body.style.overflow = "auto";
+            document.getElementById("btnMusic").style.display = "block";
+        }
+        function togglePlay() { audio.paused ? audio.play() : audio.pause(); }
+        function salinTeks(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerText);
+            alert("Nomor berhasil disalin! ✨");
+        }
+
+        // Fungsi Animasi Foto Goyang
+        function animasiFoto() {
+            const foto = document.getElementById("fotoKita");
+            foto.classList.add("foto-goyang");
+            setTimeout(() => { foto.classList.remove("foto-goyang"); }, 500);
+        }
+
+        var targetDate = new Date("April 25, 2026 10:00:00").getTime();
+        setInterval(function() {
+            var now = new Date().getTime();
+            var distance = targetDate - now;
+            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
+    </script>
+</body>
+</html>
